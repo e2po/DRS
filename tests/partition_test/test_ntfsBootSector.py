@@ -8,7 +8,8 @@ class TestNtfsBootSector(TestCase):
     MFT_START_OFFSET_IN_BYTES = CLUSTER_SIZE_IN_BYTES * 4
     MFT_RECORD_SIZE_IN_BYTES = 1024
 
-    with open(os.path.dirname(os.path.abspath(__file__)) + "/boot_sector.dat", 'rb') as f:
+    # open
+    with open(os.path.dirname(os.path.abspath(__file__)) + "/../../usb_stick.img", 'rb') as f:
         data = f.read(512)
 
     boot_sector = NtfsBootSector(data)

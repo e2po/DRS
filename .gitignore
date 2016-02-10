@@ -63,3 +63,6 @@ target/
 
 #Disk Images
 *.img
+
+#InteliJ IDE
+.idea/

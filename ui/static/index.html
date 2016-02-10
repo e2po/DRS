@@ -37,20 +37,22 @@
     </script>
 </head>
 <body ng-app="app" ng-controller="AppCtrl as app">
-Your app goes here!
-
-{{ app.message }}
-<h1>Flask-SocketIO Test</h1>
-    <h2>Send:</h2>
-    <form id="emit" method="POST" action='#'>
-        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
-        <input type="submit" value="Echo">
-    </form>
-    <form id="disconnect" method="POST" action="#">
-        <input type="submit" value="Disconnect">
-    </form>
-    <h2>Receive:</h2>
-    <div id="log"></div>
+<h1>Components</h1>
+<ul>
+    <li>AngularJS: <strong>{{ app.message }}</strong></li>
+    <li>Flask:  <strong>OK</strong></li>
+    <li>SocketIO <strong>OK</strong></li>
+</ul>
+<h2>Send:</h2>
+<form id="emit" method="POST" action='#'>
+    <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+    <input type="submit" value="Echo">
+</form>
+<form id="disconnect" method="POST" action="#">
+    <input type="submit" value="Disconnect">
+</form>
+<h2>Receive:</h2>
+<div id="log"></div>
 <script src="bower_components/angular/angular.js"></script>
 <script src="js/app.js"></script>
 </body>
