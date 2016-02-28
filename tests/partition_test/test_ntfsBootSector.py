@@ -5,7 +5,7 @@ import os
 
 class TestNtfsBootSector(TestCase):
     CLUSTER_SIZE_IN_BYTES = 4096
-    MFT_START_OFFSET_IN_BYTES = CLUSTER_SIZE_IN_BYTES * 4
+    MFT_START_OFFSET_IN_BYTES = 16384
     MFT_RECORD_SIZE_IN_BYTES = 1024
 
     # open

@@ -1,3 +1,4 @@
+from mft.MftAnalyser import MftAnalyser
 from partition.NtfsPartition import NtfsPartition
 from partition.NtfsBootSector import NtfsBootSector
 import os
@@ -17,3 +18,6 @@ if __name__ == "__main__":
     print("sectors per cluster: " + str(boot_sector.sectors_per_cluster))
     print("mft start offset: " + str(boot_sector.get_mft_start_offset()))
     print("mft entry size: " + str(boot_sector.mft_record_size))
+
+    mft_analyser = MftAnalyser(partition)
+    mft_analyser.analyse()

@@ -30,5 +30,5 @@ class DeletedFile:
             self.file_name = new_file_name
         # read raw data from partition and save it to a new file
         with open(destination_path + "/" + self.file_name, 'w+') as new_file:
-            new_file.write(partition.read_date(self.start_offset, self.file_size))
+            new_file.write(partition.read_data(self.start_offset, self.file_size))
             return True

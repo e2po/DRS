@@ -1,0 +1,1 @@
+angular.module('eepdev.partition-picker.services', []);
