@@ -1,11 +1,9 @@
 from unittest import TestCase
-from partition.PartitionManager import PartitionManager
-from partition.NtfsPartition import NtfsPartition
+from partition.partitionmanager import PartitionManager
+from partition.ntfspartition import NtfsPartition
 
 
 class TestPartitionManager(TestCase):
-    maxDiff = None
-
     def test_load_partitions(self):
         partitions = []
         p1 = NtfsPartition("/dev/sdb1", 524288000, "SystemReserved")
@@ -16,4 +14,5 @@ class TestPartitionManager(TestCase):
         partitions.append(p3)
 
         for i in range(len(partitions)):
-            self.assertDictEqual(partitions[i].__dict__, PartitionManager.load_partitions()[i].__dict__)
+            self.assertDictEqual(partitions[i].to_json(), PartitionManager.load_partitions()[i].to_json())
+            # self.assertDictEqual(partitions[i].__dict__, PartitionManager.load_partitions()[i].__dict__)

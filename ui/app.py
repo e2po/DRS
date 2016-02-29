@@ -2,7 +2,7 @@ import json
 
 from flask import Flask
 from flask_socketio import SocketIO, emit, disconnect
-from partition.PartitionManager import PartitionManager
+from partition.partitionmanager import PartitionManager
 
 app = Flask(__name__, static_url_path='')
 app.config['SECRET_KEY'] = 'secret!'

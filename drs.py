@@ -1,4 +1,4 @@
-from partition.PartitionManager import PartitionManager
+from partition.partitionmanager import PartitionManager
 
 
 class Drs:

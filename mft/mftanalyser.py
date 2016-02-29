@@ -1,12 +1,12 @@
 import struct
 
-from partition import NtfsPartition, NtfsBootSector
+from partition import ntfspartition, NtfsBootSector
 
 
 class MftAnalyser:
     SECTOR_SIZE = 512
 
-    def __init__(self, partition: NtfsPartition):
+    def __init__(self, partition: ntfspartition):
         self.partition = partition
 
     def analyse(self):

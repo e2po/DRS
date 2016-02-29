@@ -1,0 +1,64 @@
+from mft.record import Record
+from partition.ntfspartition import NtfsPartition
+
+
+class MftTable:
+    def __init__(self, partition: NtfsPartition, mft_data_runs: list):
+        self.partition = partition
+        self.mft_data_runs = mft_data_runs
+        self.record_size = partition.boot_sector.mft_record_size
+        self.cluster_size = partition.boot_sector.get_cluster_size()
+        self.records_per_cluster = partition.boot_sector.get_cluster_size() / self.record_size
+
+    def get_record(self, record_number):
+        """
+        Return nth record from MFT.
+
+        :param record_number: nth record in MFT.
+        :return: Record object representing nth record in MFT.
+        """
+        # if record_number in valid range
+        if self.get_size() > record_number >= 0:
+            current_max = 0
+            # iterate over each data runs
+
+            for (lcn, length) in self.mft_data_runs:
+                current_max += length * self.records_per_cluster
+                # if nth record in this data run
+                if current_max > record_number:
+                    # calculate offset in bytes
+                    offset = lcn * self.cluster_size + record_number * self.record_size
+
+                    # load and return record
+                    return Record.from_raw(self.partition.read_data(offset, self.record_size))
+
+    def get_size(self):
+        """
+        Calculate number of records in Master File Table.
+
+        Total number of clusters used to store MFT is divided by number of records per cluster.
+
+        :return: int: number of records in MFT.
+        """
+        number_of_clusters = sum(length for (_, length) in self.mft_data_runs)
+        records_per_cluster = self.partition.boot_sector.get_cluster_size() / self.partition.boot_sector.mft_record_size
+        return number_of_clusters * records_per_cluster
+
+    @staticmethod
+    def load_mft_table(partition: NtfsPartition):
+        """
+        Load MftTable object that represents MFT table for this partition.
+
+        :param partition: NtfsPartition object that represents partition.
+        :return: MftTable object.
+        """
+        # location of mft
+        mft_start_bytes_offset = partition.boot_sector.get_mft_start_bytes_offset()
+        # size of each mft record
+        record_size = partition.boot_sector.mft_record_size
+        # record describing mft
+        mft_record = Record.from_raw(partition.read_data(mft_start_bytes_offset,
+                                                         record_size))
+        # return MFtTable object
+        return MftTable(partition=partition,
+                        mft_data_runs=mft_record.attrs['data']['data_runs'])

@@ -1,7 +1,7 @@
 import subprocess
 from platform import system
 
-from partition.NtfsPartition import NtfsPartition
+from partition.ntfspartition import NtfsPartition
 
 
 class PartitionManager:

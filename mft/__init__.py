@@ -1,6 +1,6 @@
-from mft.MftAnalyser import MftAnalyser
-from partition.NtfsPartition import NtfsPartition
-from partition.NtfsBootSector import NtfsBootSector
+from mft.mftanalyser import MftAnalyser
+from partition.ntfspartition import NtfsPartition
+from partition.ntfsbootsector import NtfsBootSector
 import os
 
 __all__ = ["partition"]
