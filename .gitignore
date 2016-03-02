@@ -69,3 +69,6 @@ usb_stick.img*
 
 #Bower Components
 ui/static/bower_components/*
+
+#Venv
+venv/*
