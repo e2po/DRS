@@ -28,7 +28,7 @@ class PartitionManager:
                 # create partition
                 partition = NtfsPartition(
                     parsed_line[0],             # partition path
-                    int(parsed_line[1]),             # partition size
+                    int(parsed_line[1]),        # partition size
                     ''.join(parsed_line[3:]))   # partition label
                 # add this partition to a list
                 partitions.append(partition)

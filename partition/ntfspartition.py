@@ -1,4 +1,4 @@
-from partition import NtfsBootSector
+from partition.ntfsbootsector import NtfsBootSector
 
 
 class NtfsPartition:
@@ -24,6 +24,17 @@ class NtfsPartition:
         with open(self.path, 'rb') as partition:
             partition.seek(start_pos)
             return partition.read(bytes_to_read)
+
+    def overwrite_data(self, start_pos: int, data: bytearray):
+        """
+        Method used to overwrite bytes in this partition.
+
+        :param start_pos:   position of write pointer
+        :param data:    new data to be written to this partition.
+        """
+        with open(self.path, 'rb+') as partition:
+            partition.seek(start_pos)
+            partition.write(data)
 
     def to_json(self):
         return {

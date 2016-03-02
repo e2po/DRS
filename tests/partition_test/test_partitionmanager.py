@@ -15,4 +15,3 @@ class TestPartitionManager(TestCase):
 
         for i in range(len(partitions)):
             self.assertDictEqual(partitions[i].to_json(), PartitionManager.load_partitions()[i].to_json())
-            # self.assertDictEqual(partitions[i].__dict__, PartitionManager.load_partitions()[i].__dict__)

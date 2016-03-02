@@ -62,7 +62,10 @@ target/
 .ipynb_checkpoints
 
 #Disk Images
-*.img
+usb_stick.img*
 
 #InteliJ IDE
 .idea/
+
+#Bower Components
+ui/static/bower_components/*

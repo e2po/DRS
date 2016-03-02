@@ -25,13 +25,13 @@ class AttributeHeader:
 
     @staticmethod
     def from_raw(data):
-        attr_type_id = struct.unpack('<L', data)[0]
-        attr_length = struct.unpack('<L', data)[0]
-        non_residential_flag = struct.unpack('<B', data)[0]
-        name_length = struct.unpack('<B', data)[0]
-        name_offset = struct.unpack('<H', data)[0]
-        flags = struct.unpack('<H', data)[0]
-        attr_id = struct.unpack('<H', data)[0]
+        attr_type_id = struct.unpack('<L', data[0:4])[0]
+        attr_length = struct.unpack('<L', data[4:8])[0]
+        non_residential_flag = struct.unpack('<B', data[8:9])[0]
+        name_length = struct.unpack('<B', data[9:10])[0]
+        name_offset = struct.unpack('<H', data[10:12])[0]
+        flags = struct.unpack('<H', data[12:14])[0]
+        attr_id = struct.unpack('<H', data[14:16])[0]
 
         return AttributeHeader(attr_type_id=attr_type_id,
                                attr_length=attr_length,
@@ -61,13 +61,13 @@ class NonResidentAttribute:
 
     @staticmethod
     def from_raw(data):
-        vcn_start = struct.unpack('<Q', data[16:23])[0]
-        vcn_end = struct.unpack('<Q', data[24-31])[0]
-        data_runs_offset = struct.unpack('<H', data[32:33])[0]
-        compression_unit_size = struct.unpack('<H', data[34:35])[0]
-        attr_content_alloc_size = struct.unpack('<Q', data[40:47])[0]
-        attr_content_actual_size = struct.unpack('<Q', data[48-55])[0]
-        attr_content_init_size = struct.unpack('<Q', data[56-63])[0]
+        vcn_start = struct.unpack('<Q', data[16:24])[0]
+        vcn_end = struct.unpack('<Q', data[24:32])[0]
+        data_runs_offset = struct.unpack('<H', data[32:34])[0]
+        compression_unit_size = struct.unpack('<H', data[34:36])[0]
+        attr_content_alloc_size = struct.unpack('<Q', data[40:48])[0]
+        attr_content_actual_size = struct.unpack('<Q', data[48:56])[0]
+        attr_content_init_size = struct.unpack('<Q', data[56:64])[0]
 
         return NonResidentAttribute(vcn_start=vcn_start,
                                     vcn_end=vcn_end,
@@ -137,7 +137,8 @@ class StandardInformationAttribute:
 
 class FileNameAttribute:
     def __init__(self,
-                 parent_dir_file_ref,
+                 parent_dir_file_rec_no,
+                 parent_dir_seq_no,
                  file_creation_time,
                  file_modification_time,
                  mft_modification_time,
@@ -150,7 +151,8 @@ class FileNameAttribute:
                  namespace,
                  name):
 
-        self.parent_dir_file_ref = parent_dir_file_ref
+        self.parent_dir_file_rec_no = parent_dir_file_rec_no
+        self.parent_dir_seq_no = parent_dir_seq_no
         self.file_creation_time = file_creation_time
         self.file_modification_time = file_modification_time
         self.mft_modification_time = mft_modification_time
@@ -165,20 +167,22 @@ class FileNameAttribute:
 
     @staticmethod
     def from_raw(data):
-        parent_dir_file_ref = struct.unpack('<Q', data[:7])[0]
-        file_creation_time = struct.unpack('<Q', data[8:15])[0]
-        file_modification_time = struct.unpack('<Q', data[16:23])[0]
-        mft_modification_time = struct.unpack('<Q', data[24:31])[0]
-        file_access_time = struct.unpack('<Q', data[32:39])[0]
-        file_alloc_size = struct.unpack('<Q', data[40:47])[0]
-        file_real_size = struct.unpack('<Q', data[48:55])[0]
-        flags = struct.unpack('<H', data[56:59])[0]
-        reparse_val = struct.unpack('<H', data[60:63])[0]
-        name_length = struct.unpack('<B', data[64:64])[0]
-        namespace = struct.unpack('<B', data[65:65])[0]
-        name = data[66:]
+        parent_dir_file_rec_no = int.from_bytes(data[:6], byteorder='little')  # struct.unpack('<Q', data[:7])[0]
+        parent_dir_seq_no = int.from_bytes(data[6:8], byteorder='little')
+        file_creation_time = struct.unpack('<Q', data[8:16])[0]
+        file_modification_time = struct.unpack('<Q', data[16:24])[0]
+        mft_modification_time = struct.unpack('<Q', data[24:32])[0]
+        file_access_time = struct.unpack('<Q', data[32:40])[0]
+        file_alloc_size = struct.unpack('<Q', data[40:48])[0]
+        file_real_size = struct.unpack('<Q', data[48:56])[0]
+        flags = struct.unpack('<L', data[56:60])[0]
+        reparse_val = struct.unpack('<L', data[60:64])[0]
+        name_length = struct.unpack('<B', data[64:65])[0]
+        namespace = struct.unpack('<B', data[65:66])[0]
+        name = data[66:66+name_length * 2].decode('utf-16')
 
-        return FileNameAttribute(parent_dir_file_ref=parent_dir_file_ref,
+        return FileNameAttribute(parent_dir_file_rec_no=parent_dir_file_rec_no,
+                                 parent_dir_seq_no=parent_dir_seq_no,
                                  file_creation_time=file_creation_time,
                                  file_modification_time=file_modification_time,
                                  mft_modification_time=mft_modification_time,

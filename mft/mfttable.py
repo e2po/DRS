@@ -3,34 +3,31 @@ from partition.ntfspartition import NtfsPartition
 
 
 class MftTable:
-    def __init__(self, partition: NtfsPartition, mft_data_runs: list):
+    def __init__(self, partition: NtfsPartition, record_count: int, mft_data_runs: list):
         self.partition = partition
-        self.mft_data_runs = mft_data_runs
+        self.record_count = record_count
+        self.data_runs = mft_data_runs
         self.record_size = partition.boot_sector.mft_record_size
         self.cluster_size = partition.boot_sector.get_cluster_size()
         self.records_per_cluster = partition.boot_sector.get_cluster_size() / self.record_size
 
-    def get_record(self, record_number):
+    def get_record(self, record_number: int):
         """
         Return nth record from MFT.
 
         :param record_number: nth record in MFT.
         :return: Record object representing nth record in MFT.
         """
-        # if record_number in valid range
-        if self.get_size() > record_number >= 0:
-            current_max = 0
-            # iterate over each data runs
+        offset = record_number * self.record_size + self.partition.boot_sector.get_mft_start_bytes_offset()
+        return Record.from_raw(self.partition.read_data(offset, self.record_size))
 
-            for (lcn, length) in self.mft_data_runs:
-                current_max += length * self.records_per_cluster
-                # if nth record in this data run
-                if current_max > record_number:
-                    # calculate offset in bytes
-                    offset = lcn * self.cluster_size + record_number * self.record_size
+    def activate_record(self, record_number: int):
+        flag_offset = 22
+        record_offset = record_number * self.record_size + self.partition.boot_sector.get_mft_start_bytes_offset()
 
-                    # load and return record
-                    return Record.from_raw(self.partition.read_data(offset, self.record_size))
+        record = bytearray(self.partition.read_data(record_offset, self.record_size))
+        record[flag_offset] |= 1  # change lsb to 1
+        self.partition.overwrite_data(record_offset, record)
 
     def get_size(self):
         """
@@ -40,14 +37,12 @@ class MftTable:
 
         :return: int: number of records in MFT.
         """
-        number_of_clusters = sum(length for (_, length) in self.mft_data_runs)
-        records_per_cluster = self.partition.boot_sector.get_cluster_size() / self.partition.boot_sector.mft_record_size
-        return number_of_clusters * records_per_cluster
+        return self.record_count * self.record_size
 
     @staticmethod
     def load_mft_table(partition: NtfsPartition):
         """
-        Load MftTable object that represents MFT table for this partition.
+        Load MFT from partition and return MftTable object.
 
         :param partition: NtfsPartition object that represents partition.
         :return: MftTable object.
@@ -59,6 +54,10 @@ class MftTable:
         # record describing mft
         mft_record = Record.from_raw(partition.read_data(mft_start_bytes_offset,
                                                          record_size))
+
+        record_count = int(mft_record.attrs['size'] / record_size)
+
         # return MFtTable object
         return MftTable(partition=partition,
-                        mft_data_runs=mft_record.attrs['data']['data_runs'])
+                        record_count=record_count,
+                        mft_data_runs=mft_record.attrs['data_runs'])        # return MFtTable object

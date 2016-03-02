@@ -34,38 +34,6 @@ class NtfsBootSector:
 
     @staticmethod
     def from_raw(data):
-        """
-        Table 13.18. Data structure for the boot sector.
-        ---------------------------------------------------------------------
-        Byte Range      Description                                 Essential
-        0–2             Assembly instruction to jump to boot code   No
-        3–10            OEM Name                                    No
-        11–12           Bytes per sector                            Yes
-        13–13           Sectors per cluster                         Yes
-        14–15           Reserved sectors                            No
-        16–20           Unused                                      No
-        21–21           Media descriptor                            No
-        22–23           Unused                                      No
-        24–31           Unused (Microsoft says it is not checked)   No
-        32–35           Unused (Microsoft says it must be 0)        No
-        36–39           Unused (Microsoft says it is not checked)   No
-        40–47           Total sectors in file system                Yes
-        48–55           Starting cluster address of MFT             Yes
-        56–63           Starting cluster address of MFT Mirror      No
-        64–64           Size of file record (MFT entry)             Yes
-        65–67           Unused                                      No
-        68–68           Size of index record                        Yes
-        69–71           Unused                                      No
-        72–79           Serial number                               No
-        80–83           Unused                                      No
-        84–509          Boot code                                   No
-        510–511         Signature (0xaa55)                          No
-
-        Source: [Carter 2004] File System Forensic Analysis.
-
-        :param data: first sector of NtfsPartition
-        :return: NtfsBootSector object.
-        """
         bytes_per_sector = struct.unpack('<H', data[11:13])[0]
         sectors_per_cluster = struct.unpack('<B', data[13:14])[0]
         total_sectors = struct.unpack("<Q", data[40:48])[0]

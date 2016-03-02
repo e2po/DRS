@@ -1,32 +1,5 @@
 from unittest import TestCase
-
-
-def unpack_data_runs(data):
-    data_runs = []
-    ptr = 0
-    prev = 0
-    while ord(data[ptr:ptr+1]) != 0x00:
-        bits = bin(ord(data[ptr:ptr+1]))[2:].rjust(8, '0')
-        bytes_length = int(bits[4:], 2)
-
-        bytes_offset = int(bits[:4], 2)
-
-        print('length: ' + str(bytes_length))
-        print('offset:' + str(bytes_offset))
-
-        length = int.from_bytes(data[ptr+1:ptr+1+bytes_length], byteorder='little')
-        # print(length)
-        lcn = int.from_bytes(data[ptr+1+bytes_length:ptr+1+bytes_length+bytes_offset], byteorder='little', signed=True)
-        data_run = (length,
-                    lcn + prev)
-        prev += lcn
-        print(prev)
-
-        print('data_run')
-        print(data_run)
-        data_runs.append(data_run)
-        ptr += 1+bytes_length+bytes_offset
-    return data_runs
+from mft.record import unpack_data_runs
 
 
 class TestDataRuns(TestCase):
