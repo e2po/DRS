@@ -1,25 +1,52 @@
-'use strict';
+(function(){
+    'use strict';
 
-angular.module('drsApp', [
+    angular.module('drsApp', [
+        'ui.router',
         'ngMaterial',
         'ngAnimate',
         'btford.socket-io',
+        'partitionPicker'
+    ]).config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        function($stateProvider, $urlRouterProvider) {
+            $urlRouterProvider.otherwise('/');
 
-        'ngRoute',
-        'drsApp.partition-picker'
-    ])
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'partition-picker/partition-picker.html',
-                controller: 'homeController',
-                controllerAs: 'ctrl'
+            $stateProvider
+                .state("partitionPicker", {
+                    url: "/partitionPicker",
+                    templateUrl: "drsApp/partitionPicker/partition-picker.html",
+                    controller: "partitionPickerController",
+                    controllerAs: "ctrl"
+                })
+        }]);
+})();
 
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    });
+
+
+//'use strict';
+//
+//angular.module('drsApp', [
+//        'ngMaterial',
+//        'ngAnimate',
+//        'btford.socket-io',
+//
+//        'ngRoute',
+//        'drsApp.partition-picker'
+//    ])
+//    .config(function ($routeProvider) {
+//        $routeProvider
+//            .when('/', {
+//                templateUrl: 'partition-picker/partition-picker.html',
+//                controller: 'homeController',
+//                controllerAs: 'ctrl'
+//
+//            })
+//            .otherwise({
+//                redirectTo: '/'
+//            });
+//    });
 
 //// Define all modules with no dependencies
 //angular.module('PartitionPickerApp', []);

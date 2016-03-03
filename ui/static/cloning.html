@@ -1,10 +1,10 @@
-<html lang="en" ng-app="drsApp">
+<html lang="en">
 <head>
     <title>Disk Cloning</title>
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 </head>
-<body ng-cloak>
-<div ng-view></div>
+<body ng-app="drsApp" ng-cloak>
+<div ui-view=""></div>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
@@ -14,11 +14,12 @@
 <script src="bower_components/angular-aria/angular-aria.min.js"></script>
 <script src="bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="bower_components/angular-material/angular-material.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-<script src="js/app.js"></script>
-<script src="js/app.states.js"></script>
-<script src="js/partition-picker/partition.picker.ctrl.js"></script>
-<script src="js/partition-picker/services.js"></script>
+<script src="drsApp/app.js"></script>
+<script src="drsApp/partitionPicker/partitionPickerController.js"></script>
+<script src="drsApp/home/homeController.js"></script>
+<script src="drsApp/mftAnalysis/mftAnalysisController.js"></script>
 
 
 </body>
