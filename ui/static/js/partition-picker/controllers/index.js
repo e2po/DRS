@@ -1,1 +1,0 @@
-angular.module('eepdev.partition-picker.controllers', []);

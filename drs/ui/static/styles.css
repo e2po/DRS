@@ -1,0 +1,14 @@
+/*
+"""
+Authors:    Porebski Elvis      C00170343
+            Tyrakowski Bartosz  C00155128
+Date:       March 24th, 2016
+"""
+*/
+.orphan_file {
+    background-color: pink;
+}
+
+.not_orphan_file {
+    background-color: limegreen;
+}

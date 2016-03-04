@@ -1,0 +1,68 @@
+<!--
+"""
+Authors:    Porebski Elvis      C00170343
+            Tyrakowski Bartosz  C00155128
+Date:       March 24th, 2016
+"""
+-->
+<md-toolbar flex="33">
+    <div class="md-toolbar-tools">
+        <a ui-sref="home">
+            <md-button aria-label="Go Back">
+                <md-icon md-svg-icon="assets/ic_chevron_left_48px.svg"></md-icon>
+            </md-button>
+        </a>
+    </div>
+
+    <div layout-align="center start" layout="row">
+        <div flex="66">
+            <h1>MFT Analysis</h1>
+
+            <div layout="row">
+                <div layout="column" flex="50"  style="margin: 10px;">
+                    <md-input-container style="color: white;">
+                        <label  style="color: white;">Partition Access Path</label>
+                        <input ng-model="sourcePath" placeholder="Enter path manually" style="color: white;">
+                    </md-input-container>
+                </div>
+
+                <div layout="column" flex="50"  style="margin: 10px; display: none;">
+                    <md-input-container  ng-init="getPartitions()">
+                        <label style="color: white;">Source</label>
+                        <md-select ng-model="selectedSource">
+                            <md-option style="color: #3A7734;" ng-repeat="partition in partitions" >{{ partition.label + ' (' + partition.path + ')' }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div layout="row" ng-hide="analysisCompleted">
+                <md-button class="md-raised md-primary" style="background-color: #259b24; width: 100%;" ng-click="analyseMft()">Start Analysing</md-button>
+            </div>
+            <div layout="row" ng-show="analysisCompleted" layout-align="center center">
+
+                <md-button class="md-raised">Select All</md-button>
+                <md-button class="md-raised md-sucess" flex style="background-color: #259b24;">Restore Files</md-button>
+            </div>
+        </div>
+
+
+    </div>
+</md-toolbar>
+
+<div layout-align="center start" layout="row" flex="66">
+    <md-content class="md-whiteframe-z2" flex="66" layout="column">
+        <md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear>
+        <md-list flex="65">
+            <md-list-item ng-class="{'orphan_file': deletedRecord.is_orphan, 'not_orphan_file': !deletedRecord.is_orphan}" class="md-2-line" ng-repeat="deletedRecord in deletedRecords">
+                <md-checkbox aria-label="Recover this file"></md-checkbox>
+
+                <div class="md-list-item-text" layout="column">
+                    <h3>File Name: {{ deletedRecord.file_name }}</h3>
+                    <h4>Dir Path: {{ deletedRecord.dir_path }}</h4>
+                </div>
+
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>
