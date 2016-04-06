@@ -1,7 +1,7 @@
 """
 Authors:    Porebski Elvis      C00170343
             Tyrakowski Bartosz  C00155128
-Date:       March 24th, 2016
+Date:       February, 2016
 """
 
 from drs.mft.bitmap_alloc_clusters import Bitmap
@@ -72,4 +72,3 @@ class MftAnalyser:
                                     path=path)
         path['is_orphan'] = True
         return path
-

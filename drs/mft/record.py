@@ -1,7 +1,7 @@
 """
 Authors:    Porebski Elvis      C00170343
             Tyrakowski Bartosz  C00155128
-Date:       March 24th, 2016
+Date:       February, 2016
 """
 
 import struct
@@ -42,7 +42,7 @@ class Record:
         Little endian   Big endian      Description
         -------------------------------------------------
         0x0000          0x0000          deleted file
-        0x0001          0x0001          allocated file
+        0x0100          0x0001          allocated file
 
         :return: bool
         """

@@ -1,7 +1,7 @@
 """
 Authors:    Porebski Elvis      C00170343
             Tyrakowski Bartosz  C00155128
-Date:       March 24th, 2016
+Date:       February, 2016
 """
 
 from unittest import TestCase

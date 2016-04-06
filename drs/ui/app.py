@@ -1,8 +1,15 @@
+"""
+Authors:    Porebski Elvis      C00170343
+            Tyrakowski Bartosz  C00155128
+Date:       February, 2016
+"""
 import json
 
 from drs.drs import Drs
 from flask import Flask
 from flask_socketio import SocketIO, emit
+
+from drs.mft.record import Record
 from drs.partition.ntfspartition import NtfsPartition
 from drs.partition.partitionmanager import PartitionManager
 from os.path import exists
@@ -53,6 +60,11 @@ def analyse_mft(path):
         print('MFT analysis completed.')
         results = []
         for deleted_record in drs.data_bank.values():
+            print(deleted_record,
+                  'Record Number: {}'.format(deleted_record['data'].record_number),
+                  'Size: {}'.format(deleted_record['data'].attrs['size']),
+                  'File Seq NO: {}'.format(deleted_record['data'].attrs['parent_dir_file_req_no']),
+                  'Parent Dir Seq NO: {}'.format(deleted_record['data'].attrs['parent_dir_seq_no']))
             file_name = deleted_record['data'].attrs['file_name']
             path = deleted_record['path']
             is_orphan = deleted_record['is_orphan']

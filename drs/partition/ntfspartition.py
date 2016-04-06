@@ -1,7 +1,7 @@
 """
 Authors:    Porebski Elvis      C00170343
             Tyrakowski Bartosz  C00155128
-Date:       March 24th, 2016
+Date:       February, 2016
 """
 
 from drs.partition.ntfsbootsector import NtfsBootSector
@@ -16,7 +16,6 @@ class NtfsPartition:
         self.size = size
         self.label = label
         self.boot_sector = NtfsBootSector.from_raw(self.read_data(0, 512))
-        # self.mft_table = MftTable
 
     def read_data(self, start_pos: int, bytes_to_read: int):
         """

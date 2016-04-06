@@ -1,3 +1,9 @@
+"""
+Authors:    Porebski Elvis      C00170343
+            Tyrakowski Bartosz  C00155128
+Date:       February, 2016
+"""
+
 from distutils.core import setup
 
 setup(
