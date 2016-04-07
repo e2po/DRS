@@ -47,4 +47,3 @@ class NtfsPartition:
             'size': self.size,
             'label': self.label
         }
-

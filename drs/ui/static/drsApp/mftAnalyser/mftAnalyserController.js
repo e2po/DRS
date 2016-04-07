@@ -26,6 +26,11 @@ Date:       February, 2016
             mySocket.emit('request:mft_analyse', $scope.sourcePath);
         };
 
+        $scope.recoverAll = function() {
+            console.log('recovering files...');
+            mySocket.emit('request:recover_all');
+        };
+
         mySocket.on('response:partitions', function(data) {
             $scope.partitions = JSON.parse(data);
         });

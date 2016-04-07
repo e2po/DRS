@@ -27,16 +27,19 @@ class Drs:
     def analyse(self, partition: NtfsPartition, callback):
         self.partition = partition
         mft_table = MftTable.load_mft_table(partition=partition)
-        analyser = MftAnalyser(mft_table=mft_table,
-                               partition=self.partition)
+        self.analyser = MftAnalyser(mft_table=mft_table,
+                                    partition=self.partition)
 
-        analyser.deleted_records = self.data_bank
+        self.analyser.deleted_records = self.data_bank
 
-        t = threading.Thread(target=analyser.analyse(callback=callback))
+        t = threading.Thread(target=self.analyser.analyse(callback=callback))
         t.start()
 
     def recover_record(self, record_number: int):
         self.analyser.recover_selected(record_number=record_number)
+
+    def recover_all(self):
+        self.analyser.recover_all()
 
 
 if __name__ == '__main__':

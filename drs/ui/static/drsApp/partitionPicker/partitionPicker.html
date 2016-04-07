@@ -8,12 +8,12 @@ Date:       February, 2016
 <md-content>
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <md-button aria-label="Go Back">
-                <md-icon md-svg-icon="bower_components/material-design-icons/navigation/svg/production/ic_chevron_left_48px.svg"></md-icon>
-            </md-button>
-            <h2>
-                <span>Partition Cloning</span>
-            </h2>
+            <a ui-sref="home">
+                <md-button aria-label="Go Back">
+                    <md-icon md-svg-icon="assets/ic_chevron_left_48px.svg"></md-icon>
+                </md-button>
+            </a>
+            <h1>Partition Cloning</h1>
         </div>
     </md-toolbar>
 
@@ -34,6 +34,7 @@ Date:       February, 2016
                                     <md-option ng-repeat="partition in partitions" ng-value="partition" >{{ partition.label + ' (' + partition.path + ')' }}</md-option>
                                 </md-select>
                             </md-input-container>
+
                         </div>
                     </div>
 
@@ -51,6 +52,7 @@ Date:       February, 2016
                                     <div ng-message="required">Source and Destination must be different.</div>
                                 </div>
                             </md-input-container>
+
                         </div>
                     </div>
                 </div>

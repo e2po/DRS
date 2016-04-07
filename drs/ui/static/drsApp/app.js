@@ -18,8 +18,6 @@ Date:       February, 2016
         '$stateProvider',
         '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise('/mft');
-
             $stateProvider
                 .state("partitionPicker", {
                     url: "/picker",
@@ -38,7 +36,8 @@ Date:       February, 2016
                     templateUrl: "drsApp/mftAnalyser/mftAnalyser.html",
                     controller: "mftAnalyserController",
                     controllerAs: "ctrl"
-                })
+                });
+            $urlRouterProvider.otherwise('/');
         }])
     .factory('mySocket', function (socketFactory) {
         var mySocket = socketFactory({

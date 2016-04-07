@@ -40,9 +40,9 @@ class PartitionManager:
                 partitions.append(partition)
 
         elif os == 'Windows':
-            # TODO: research how to get partition in Windows
+            # TODO: research how to get list of available partitions in Windows
             pass
         elif os == 'Darwin':
-            # TODO: research how to get partition in Mac
+            # TODO: research how to get list of available partitions in Mac
             pass
         return partitions

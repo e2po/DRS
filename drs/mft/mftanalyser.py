@@ -31,7 +31,9 @@ class MftAnalyser:
                             path = self.build_abs_path(seq_no=record.attrs['parent_dir_seq_no'],
                                                        record_number=record.attrs['parent_dir_file_req_no'])
 
-                            result = {'data': record, 'is_orphan': path['is_orphan'], 'path': '/'.join(path['dir_name'])}
+                            result = {'data': record,
+                                      'is_orphan': path['is_orphan'],
+                                      'path': '/'.join(path['dir_name'])}
 
                             self.deleted_records[record.record_number] = result
 
@@ -41,6 +43,7 @@ class MftAnalyser:
 
     def recover_all(self):
         for record_number in self.deleted_records.keys():
+            print('recovering MFT record nb: {}'.format(record_number))
             self.mft_table.activate_record(record_number=record_number)
 
     def build_abs_path(self, seq_no: int, record_number: int, path=None):
